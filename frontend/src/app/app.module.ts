@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WeatherComponent } from './weather/weather.component';
 import { SharedService } from './shared.service';
 
 import {HttpClientModule} from '@angular/common/http';
@@ -11,8 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    WeatherComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

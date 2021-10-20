@@ -3,15 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
-  readonly APIUrl = "https://localhost:44326/weatherforecast";
+  readonly APIUrl = 'https://localhost:5001/weatherforecast';
 
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
-
-  getWheather():Observable<any>{
-    return this.http.get<any>(this.APIUrl);
+  getWheather(): Observable<string> {
+    return this.http.get(this.APIUrl, {responseType: 'text'});
   }
 }

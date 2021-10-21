@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NotesAPI.Controllers
+namespace Notes.WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

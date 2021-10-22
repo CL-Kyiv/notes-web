@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Notes.Domain.Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,17 @@ namespace Notes.WebAPI.Controllers
     [Route("[controller]")]
     public class NotesController : Controller
     {
-        public IActionResult Index()
+        private readonly INoteService _noteService;
+
+        public NotesController(INoteService noteService)
         {
-            return Ok("Notes");
+            _noteService = noteService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetNotes()
+        {
+            return Ok(await _noteService.GetAsync());
         }
     }
 }

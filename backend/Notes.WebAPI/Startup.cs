@@ -6,6 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Notes.Domain.Services;
+using Notes.Domain.Services.Abstractions;
+using Notes.Repository.Abstractions.Repositories;
+using Notes.Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +40,11 @@ namespace Notes.WebAPI
                     });
             });
             services.AddControllers();
+
+            string connectionString = "Server=wawsdv002.compatibl.com;Database=test_db;User Id=notes_user;Password=!Sasha_Masha!123;";
+
+            services.AddScoped<INoteRepository, NoteRepository>(provider => new NoteRepository(connectionString));
+            services.AddScoped<INoteService, NoteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

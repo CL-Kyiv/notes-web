@@ -1,16 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Notes.Domain.Services.Abstractions\Notes.Domain.Services.Abstractions.csproj" />
-    <ProjectReference Include="..\Notes.Domain.Services\Notes.Domain.Services.csproj" />
     <ProjectReference Include="..\Notes.Repository.Abstractions\Notes.Repository.Abstractions.csproj" />
-    <ProjectReference Include="..\Notes.Repository\Notes.Repository.csproj" />
   </ItemGroup>
-
 
 </Project>

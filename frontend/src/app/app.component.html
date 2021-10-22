@@ -1,2 +1,8 @@
 <h2>Hello</h2>
-<h2>{{notesData}}</h2>
+
+<div *ngFor="let note of notesData">
+  <div>{{note.id}}</div>
+  <div>{{note.title}}</div>
+  <div>{{note.body}}</div>
+  <div>{{note.createdDate}}</div>
+</div>

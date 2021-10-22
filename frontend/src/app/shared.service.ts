@@ -10,7 +10,7 @@ export class SharedService {
 
   constructor(private http: HttpClient) {}
 
-  getNotes(): Observable<string> {
-    return this.http.get(this.APIUrl, {responseType: 'text'});
+  getNotes(): Observable<any> {
+    return this.http.get(this.APIUrl, {responseType: 'json'});
   }
 }

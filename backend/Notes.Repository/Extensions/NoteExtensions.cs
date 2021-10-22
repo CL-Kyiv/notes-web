@@ -1,7 +1,5 @@
 ﻿using Notes.Domain.Models;
 using Notes.Repository.Entities;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace Notes.Repository.Extensions
 {

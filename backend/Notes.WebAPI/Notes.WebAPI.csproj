@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <NoWin32Manifest>true</NoWin32Manifest>
+    <UserSecretsId>b48ba13d-2165-4e0d-b428-9f748bcb5921</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Notes.Core\Notes.Core.csproj" />
     <ProjectReference Include="..\Notes.Domain.Services.Abstractions\Notes.Domain.Services.Abstractions.csproj" />
     <ProjectReference Include="..\Notes.Domain.Services\Notes.Domain.Services.csproj" />
     <ProjectReference Include="..\Notes.Repository.Abstractions\Notes.Repository.Abstractions.csproj" />

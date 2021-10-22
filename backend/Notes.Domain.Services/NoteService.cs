@@ -1,9 +1,7 @@
 ﻿using Notes.Domain.Models;
 using Notes.Domain.Services.Abstractions;
 using Notes.Repository.Abstractions.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Notes.Domain.Services

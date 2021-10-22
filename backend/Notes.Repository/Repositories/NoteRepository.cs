@@ -4,11 +4,9 @@ using Notes.Domain.Models;
 using Notes.Repository.Abstractions.Repositories;
 using Notes.Repository.Entities;
 using Notes.Repository.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Notes.Repository.Repositories

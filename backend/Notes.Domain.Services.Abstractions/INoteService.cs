@@ -6,6 +6,6 @@ namespace Notes.Domain.Services.Abstractions
 {
     public interface INoteService
     {
-        Task<List<Note>> GetAsync();
+        Task<List<Note>> GetNotesAsync();
     }
 }

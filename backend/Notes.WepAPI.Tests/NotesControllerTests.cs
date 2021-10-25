@@ -33,7 +33,7 @@ namespace Notes.WepAPI.Tests
                new Note(1, "note1", "note1", DateTime.Now),
             };
 
-            _noteServiceMock.Setup(n => n.GetAsync())
+            _noteServiceMock.Setup(n => n.GetNotesAsync())
                 .ReturnsAsync(notesFromService);
 
             //Act

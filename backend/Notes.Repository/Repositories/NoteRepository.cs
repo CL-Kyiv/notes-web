@@ -18,7 +18,7 @@ namespace Notes.Repository.Repositories
         {
             connectionString = conn;
         }
-        public async Task<List<Note>> GetAsync()
+        public async Task<List<Note>> GetNotesAsync()
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {

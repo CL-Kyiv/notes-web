@@ -6,6 +6,6 @@ namespace Notes.Repository.Abstractions.Repositories
 {
     public interface INoteRepository
     {
-        Task<List<Note>> GetAsync();
+        Task<List<Note>> GetNotesAsync();
     }
 }

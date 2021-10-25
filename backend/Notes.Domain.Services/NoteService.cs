@@ -16,7 +16,7 @@ namespace Notes.Domain.Services
             _noteRepository = noteRepository;
         }
 
-        public Task<List<Note>> GetAsync() =>
-            _noteRepository.GetAsync();
+        public Task<List<Note>> GetNotesAsync() =>
+            _noteRepository.GetNotesAsync();
     }
 }

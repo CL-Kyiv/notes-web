@@ -2,7 +2,7 @@
 
 namespace Notes.Repository.Entities
 {
-    internal class NoteEntity
+    public class NoteEntity
     {
         public int id { get; set; }
         public string title { get; set; }

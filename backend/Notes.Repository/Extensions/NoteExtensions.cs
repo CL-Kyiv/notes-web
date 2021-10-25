@@ -3,7 +3,7 @@ using Notes.Repository.Entities;
 
 namespace Notes.Repository.Extensions
 {
-    internal static class NoteExtensions
+    public static class NoteExtensions
     {
         public static Note ToDomainModel(this NoteEntity entity) => new Note(
             entity.id,

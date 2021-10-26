@@ -6,8 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SharedService {
-  readonly APIUrl = 'https://localhost:5001/notes';
+  
+  config = require('./config/host.config.json');
 
+  readonly APIUrl = this.config.host.endpoint;
+  
   constructor(private http: HttpClient) {}
 
   getNotes(): Observable<any> {

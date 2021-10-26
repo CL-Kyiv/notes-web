@@ -2,7 +2,7 @@
 /output
 
 # IDE
-.vscode/*
+**/.vscode/*
 .vs
 obj
 *.user

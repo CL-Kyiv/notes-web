@@ -1,0 +1,6 @@
+{
+    "host": {
+      "endpoint": "https://localhost:5001/notes"
+    }
+}
+  

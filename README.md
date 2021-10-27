@@ -11,4 +11,5 @@ The main goal of this application is to learn how to connect the front end to th
 3) Open a command prompt, go to the directory ./notes/frontend and write the command data:
 - npm instal
 - ng serve --o
+
 After that, the application will open on the specified port.

@@ -6,7 +6,9 @@ using Microsoft.Extensions.Hosting;
 using Notes.Core.Configuration;
 using Notes.Domain.Services;
 using Notes.Domain.Services.Abstractions;
+using Notes.Repository.Abstractions.Base;
 using Notes.Repository.Abstractions.Repositories;
+using Notes.Repository.Base;
 using Notes.Repository.Repositories;
 
 namespace Notes.WebAPI
@@ -36,9 +38,13 @@ namespace Notes.WebAPI
 
             services.AddControllers();
 
-            string connectionString = GetDbConnectionString(services);
-            
-            services.AddScoped<INoteRepository, NoteRepository>(provider => new NoteRepository(connectionString));
+            DatabaseSettings databaseSettings = Configuration
+                .GetSection("DatabaseSettings")
+                .Get<DatabaseSettings>();
+
+            services.AddSingleton(databaseSettings);
+            services.AddScoped<INoteRepository, NoteRepository>();
+            services.AddScoped<ISqlConnectionObjectFactory, SqlConnectionObjectFactory>();
             services.AddScoped<INoteService, NoteService>();
         }
 
@@ -61,16 +67,6 @@ namespace Notes.WebAPI
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private string GetDbConnectionString(IServiceCollection services)
-        {
-            var dbConfig =
-                Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
-            
-            var connectionString = $"Server={dbConfig.Server};Database={dbConfig.Database};User Id={dbConfig.User};Password={dbConfig.Pass};";
-
-            return connectionString;
         }
     }
 }

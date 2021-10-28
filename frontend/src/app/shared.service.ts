@@ -6,11 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SharedService {
-  readonly APIUrl = 'https://localhost:5001/weatherforecast';
+  
+  config = require('./config/host.config.json');
 
+  readonly APIUrl = this.config.host.endpoint;
+  
   constructor(private http: HttpClient) {}
 
-  getWheather(): Observable<string> {
-    return this.http.get(this.APIUrl, {responseType: 'text'});
+  getNotes(): Observable<any> {
+    return this.http.get(this.APIUrl, {responseType: 'json'});
   }
 }

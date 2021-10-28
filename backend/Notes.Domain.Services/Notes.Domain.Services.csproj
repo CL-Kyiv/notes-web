@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notes.Domain.Services.Abstractions\Notes.Domain.Services.Abstractions.csproj" />
+    <ProjectReference Include="..\Notes.Repository.Abstractions\Notes.Repository.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

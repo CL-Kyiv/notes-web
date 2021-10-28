@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Notes.Core.Configuration;
+using Notes.Domain.Services;
+using Notes.Domain.Services.Abstractions;
+using Notes.Repository.Abstractions.Repositories;
+using Notes.Repository.Repositories;
 
-namespace NotesAPI
+namespace Notes.WebAPI
 {
     public class Startup
     {
@@ -35,7 +33,13 @@ namespace NotesAPI
                         builder.WithOrigins("*");
                     });
             });
+
             services.AddControllers();
+
+            string connectionString = GetDbConnectionString(services);
+            
+            services.AddScoped<INoteRepository, NoteRepository>(provider => new NoteRepository(connectionString));
+            services.AddScoped<INoteService, NoteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +61,16 @@ namespace NotesAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private string GetDbConnectionString(IServiceCollection services)
+        {
+            var dbConfig =
+                Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
+            
+            var connectionString = $"Server={dbConfig.Server};Database={dbConfig.Database};User Id={dbConfig.User};Password={dbConfig.Pass};";
+
+            return connectionString;
         }
     }
 }

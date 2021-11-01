@@ -10,6 +10,7 @@ using Notes.Repository.Abstractions.Base;
 using Notes.Repository.Abstractions.Repositories;
 using Notes.Repository.Base;
 using Notes.Repository.Repositories;
+using Notes.WebAPI.Profiles;
 
 namespace Notes.WebAPI
 {
@@ -37,6 +38,9 @@ namespace Notes.WebAPI
             });
 
             services.AddControllers();
+
+            services.AddAutoMapper(
+                typeof(NoteProfile));
 
             DatabaseSettings databaseSettings = Configuration
                 .GetSection("DatabaseSettings")

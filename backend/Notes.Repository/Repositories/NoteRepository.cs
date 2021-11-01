@@ -1,11 +1,11 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-using Notes.Domain.Models;
+﻿using Notes.Domain.Models;
 using Notes.Repository.Abstractions.Base;
 using Notes.Repository.Abstractions.Repositories;
 using Notes.Repository.Base;
+using Notes.Repository.Constants;
 using Notes.Repository.Entities;
 using Notes.Repository.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -19,10 +19,45 @@ namespace Notes.Repository.Repositories
             : base(connectionFactory)
         {
         }
+
+        public async Task AddNoteAsync(NoteCreateRequest createRequest)
+        {
+            await ExecuteAsync(
+                NoteSqlCommands.AddNote,
+                new
+                {
+                     Title = createRequest.Title,
+                     Body = createRequest.Body,
+                     CreatedDate = DateTime.Now,
+                     IsActive = true
+                });
+        }
+
+        public async Task DeleteNoteAsync(int id)
+        {
+            await ExecuteAsync(
+            NoteSqlCommands.DeleteNote, new
+            {
+                Id = id
+            });
+        }
+
         public async Task<List<Note>> GetNotesAsync()
         {
-            return (await QueryAsync<NoteEntity>("SELECT * FROM note"))
+            return (await QueryAsync<NoteEntity>(NoteSqlCommands.GetNotes))
                 .Select(noteEtity => noteEtity.ToDomainModel()).ToList();
+        }
+
+        public async Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest)
+        {
+            await ExecuteAsync(
+                NoteSqlCommands.UpdateNote,
+                new
+                {
+                    Id = id,
+                    Title = updateRequest.Title,
+                    Body = updateRequest.Body,
+                });
         }
     }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedService } from './shared.service';
+import { ColDef } from 'ag-grid-community';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +10,34 @@ import { SharedService } from './shared.service';
 
 export class AppComponent {
   title = 'NotesApp';
-  
+
   constructor(private service: SharedService) {}
 
-  notesData: any;
-
-  ngOnInit(): void {
-    this.refreshNotesData();
+  rowData$: any = this.service.getNotes();
+  
+  onGridReady(params: any) {
+    params.api.sizeColumnsToFit();
   }
 
-  refreshNotesData() {
-    this.service.getNotes().subscribe((data) => {
-      this.notesData = data;
-    });
-  }
+  rowHeight = 50;
+
+  columnDefs: ColDef[] = [
+    { 
+      field: 'id',
+      width: 1
+    },
+    { 
+      field: 'title',
+      width: 30
+    },
+    { 
+      field: 'body',
+      width: 60
+    },
+    { 
+      field: 'createdDate',
+      width: 9
+    }
+  ];
+  
 }

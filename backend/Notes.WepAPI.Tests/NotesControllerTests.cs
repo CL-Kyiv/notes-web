@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using System.Net;
+using AutoMapper;
 
 namespace Notes.WepAPI.Tests
 {
@@ -16,12 +17,15 @@ namespace Notes.WepAPI.Tests
     {
         private readonly NotesController _controller;
         private readonly Mock<INoteService> _noteServiceMock;
+        private readonly Mock<IMapper> _mapperMock;
 
         public NotesControllerTests()
         {
             _noteServiceMock = new Mock<INoteService>();
 
-            _controller = new NotesController(_noteServiceMock.Object);
+            _mapperMock = new Mock<IMapper>();
+
+            _controller = new NotesController(_noteServiceMock.Object, _mapperMock.Object);
         }
 
         [Fact]

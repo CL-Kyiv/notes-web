@@ -1,4 +1,5 @@
 cd ..
+cd ..
 cd backend\Notes.WepAPI.Tests
 dotnet test --collect:"XPlat Code Coverage"
 cd ..

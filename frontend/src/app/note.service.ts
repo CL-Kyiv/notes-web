@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Note } from './note.type';
+ 
 @Injectable({
   providedIn: 'root',
 })
-export class SharedService {
+export class NoteService {
   
   config = require('./config/host.config.json');
 
@@ -13,7 +14,7 @@ export class SharedService {
   
   constructor(private http: HttpClient) {}
 
-  getNotes(): Observable<any> {
-    return this.http.get(this.APIUrl, {responseType: 'json'});
+  getNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(this.APIUrl, {responseType: 'json'});
   }
 }

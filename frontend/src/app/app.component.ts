@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { SharedService } from './shared.service';
+import { NoteService } from './note.service';
 import { ColDef } from 'ag-grid-community';
+import { Note } from './note.type';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +13,9 @@ import { ColDef } from 'ag-grid-community';
 export class AppComponent {
   title = 'NotesApp';
 
-  constructor(private service: SharedService) {}
+  constructor(private service: NoteService) {}
 
-  rowData$: any = this.service.getNotes();
+  rowData$: Observable<Note[]> = this.service.getNotes();
   
   onGridReady(params: any) {
     params.api.sizeColumnsToFit();

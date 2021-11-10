@@ -8,7 +8,7 @@ namespace Notes.Repository.Abstractions.Repositories
     {
         Task<List<Note>> GetNotesAsync();
         Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest);
-        Task AddNoteAsync(NoteCreateRequest createRequest);
+        Task AddNoteAsync();
         Task DeleteNoteAsync(int id);
     }
 }

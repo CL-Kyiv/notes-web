@@ -2,7 +2,7 @@
 {
     internal static class NoteSqlCommands
     {
-        public const string GetNotes = "SELECT * FROM note";
+        public const string GetNotes = "SELECT * FROM note where is_active = 1";
 
         public const string AddNote = @"
         EXEC [dbo].[note_insert]

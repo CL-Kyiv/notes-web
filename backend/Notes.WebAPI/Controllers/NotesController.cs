@@ -28,9 +28,9 @@ namespace Notes.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNoteAsync(VM.NoteCreateRequest createRequest)
+        public async Task<IActionResult> CreateNoteAsync()
         {
-            await _noteService.AddNoteAsync(_mapper.Map<DM.NoteCreateRequest>(createRequest));
+            await _noteService.AddNoteAsync();
             return Ok();
         }
 
@@ -42,7 +42,7 @@ namespace Notes.WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateNoteAsync(int id, VM.NoteUpdateRequest updateRequest)
+        public async Task<IActionResult> UpdateNoteAsync([FromQuery] int id, [FromBody] VM.NoteUpdateRequest updateRequest)
         {
             await _noteService.UpdateNoteAsync(id, _mapper.Map<DM.NoteUpdateRequest>(updateRequest));
             return Ok();

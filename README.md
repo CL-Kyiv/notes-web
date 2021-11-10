@@ -21,3 +21,17 @@ ng serve --o
 ```
 
 After that, the application will open on the specified port.
+
+## File structure
+
+```
+Folder Name                                              Description
+├──Tests                                    * backend tests
+├──Notes.Core                               * core code
+├──Notes.Domain                             * domain code
+├──Notes.Domain.Services                    * domain services
+├──Notes.Domain.Services.Abstractions       * domain services abstractions
+├──Notes.Repository                         * repository code
+├──Notes.Repository.Abstractions            * repository abstractions
+├──Notes.WebApi                             * app's startup project
+```

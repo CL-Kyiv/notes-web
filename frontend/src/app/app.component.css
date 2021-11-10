@@ -3,3 +3,10 @@
     height: 700px; 
     font-size: 20px;
 }
+.button-create-note{
+    height:50px; 
+    width:200px
+}
+.div-with-buttons{
+    width:25%
+}

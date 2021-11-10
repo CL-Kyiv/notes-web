@@ -20,14 +20,14 @@ namespace Notes.Repository.Repositories
         {
         }
 
-        public async Task AddNoteAsync(NoteCreateRequest createRequest)
+        public async Task AddNoteAsync()
         {
             await ExecuteAsync(
                 NoteSqlCommands.AddNote,
                 new
                 {
-                     Title = createRequest.Title,
-                     Body = createRequest.Body,
+                     Title = "Title",
+                     Body = "Body",
                      CreatedDate = DateTime.Now,
                      IsActive = true
                 });

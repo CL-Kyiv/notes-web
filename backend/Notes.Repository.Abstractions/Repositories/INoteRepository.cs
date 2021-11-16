@@ -7,5 +7,8 @@ namespace Notes.Repository.Abstractions.Repositories
     public interface INoteRepository
     {
         Task<List<Note>> GetNotesAsync();
+        Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest);
+        Task AddNoteAsync();
+        Task DeleteNoteAsync(int id);
     }
 }

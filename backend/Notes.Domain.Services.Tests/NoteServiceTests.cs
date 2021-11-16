@@ -1,8 +1,6 @@
 using Moq;
-using Notes.Domain.Services.Abstractions;
 using Notes.Repository.Abstractions.Repositories;
 using System;
-using Notes.Domain.Services;
 using System.Threading.Tasks;
 using Xunit;
 using Notes.Domain.Models;

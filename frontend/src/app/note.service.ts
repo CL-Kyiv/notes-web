@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Note } from './note.type';
-import { NoteUpdateRequest } from './note.update.request';
-import { HttpHeaders } from '@angular/common/http';
  
 @Injectable({
   providedIn: 'root',
@@ -24,16 +22,14 @@ export class NoteService {
     const body = { Title : title, 
       Body : Body };
                    
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
-                   
-    this.http.put(this.APIUrl + "notes?id=" + id, body, {headers}).subscribe();
+    this.http.put(this.APIUrl + `notes?id=${id}`, body).subscribe();
   }
 
   deleteNote(id: number){
-    this.http.delete(this.APIUrl + "notes?id=" + id).subscribe();
+    this.http.delete(this.APIUrl + `notes?id=${id}`).subscribe();
   }
 
   createNote(){
-    this.http.post(this.APIUrl + "notes", null).subscribe();
+    this.http.post(this.APIUrl + 'notes', null).subscribe();
   }
 }

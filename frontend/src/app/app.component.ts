@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { NoteService } from './note.service';
 import { ColDef } from 'ag-grid-community';
 import { Note } from './note.type';
-import { Observable } from 'rxjs';
-import { NoteUpdateRequest } from './note.update.request';
+import { Observable, Subject } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { NoteDialogComponent } from './note-dialog/note-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +16,37 @@ import { NoteUpdateRequest } from './note.update.request';
 export class AppComponent {
   private gridApi : any;
   rowHeight = 50;
-  updateRequest : NoteUpdateRequest;
 
-  constructor(private service: NoteService) {}
+  constructor(private service: NoteService,
+    private matDialog : MatDialog) {}
 
-  rowData$: Observable<Note[]> = this.service.getNotes();
+  refreshData$: Subject<void> = new Subject<void>();
+  notesData:  Note[] = [];
+
+  rowIsSelected : boolean = false;
+
+  selectedData : any;
   
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
+    const api$ = this.refreshData$
+    .pipe(
+      switchMap(() => {
+        return this.service.getNotes();
+      },
+      tap(notes=> this.notesData = notes ))
+    );
+    api$.subscribe(()=>{});
+    this.fetchNotes();
+  }
+
+  private fetchNotes(): void {
+    this.refreshData$.next();
+  }
+
+  openEditDialog(){
+    this.matDialog.open(NoteDialogComponent, {data : this.selectedData});
   }
  
   columnDefs: ColDef[] = [
@@ -31,43 +55,20 @@ export class AppComponent {
       editable: true,
       cellEditor: 'agLargeTextCellEditor',
       width: 30
-    },
-    { 
-      field: 'body',
-      editable: true,
-      cellEditor: 'agLargeTextCellEditor',
-      width: 35
-    },
-    { 
-      field: 'createdDate',
-      width: 35
     }
   ];
 
-  getSelectedRowData() {
+  onRowClick() {
     let selectedNodes = this.gridApi.getSelectedNodes();
-    let selectedData = selectedNodes.map((node : any) => node.data);
-    return selectedData[0];
+    this.selectedData = selectedNodes.map((node : any) => node.data)[0];
+    this.rowIsSelected = true;
   }
 
-  OnClickCallbackUpdateNode(){
-    var selectedData = this.getSelectedRowData();
-    this.service.updateNote(selectedData.id, selectedData.title, selectedData.body);
+  onDeleteNode(){
+    this.service.deleteNote(this.selectedData.id);
   }
 
-  OnClickCallbackDeleteNode(){
-    var selectedData = this.getSelectedRowData();
-    this.service.deleteNote(selectedData.id);
-  }
-
-  OnClickCallbackCreateNode(){
+  onCreateNode(){
     this.service.createNote();
   }
-
-  // onCellEditingStopped(params : any) {
-  //   var data = params.data;
-
-  //   this.service.updateNote(data.id, data.title, data.body);
-  // }
-  
 }

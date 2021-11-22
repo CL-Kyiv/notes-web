@@ -8,7 +8,7 @@ namespace Notes.Domain.Services.Abstractions
     {
         Task<List<Note>> GetNotesAsync();
         Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest);
-        Task AddNoteAsync();
+        Task AddNoteAsync(NoteCreateRequest createRequest);
         Task DeleteNoteAsync(int id);
     }
 }

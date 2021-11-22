@@ -3,9 +3,10 @@ import { NoteService } from './note.service';
 import { ColDef } from 'ag-grid-community';
 import { Note } from './note.type';
 import { Subject } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap} from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { NoteDialogComponent } from './note-dialog/note-dialog.component';
+import { NoteEditDialogComponent } from './note-edit-dialog/note-edit-dialog.component';
+import { NoteAddDialogComponent } from './note-add-dialog/note-add-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent {
 
   rowIsSelected: boolean = false;
 
-  selectedData: any;
+  selectedData: Note;
+  selectedNodes : any;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -33,37 +35,47 @@ export class AppComponent {
       tap((notes) => (this.notesData = notes))
     );
     api$.subscribe(() => {});
-    this.fetchNotes();
+    this.refreshGridData();
+    this.refreshData$.subscribe(_ => this.rowIsSelected = false)
   }
 
-  private fetchNotes(): void {
+  refreshGridData(){
     this.refreshData$.next();
   }
 
+  openAddDialog(){
+    const dialogRef = this.matDialog.open(NoteAddDialogComponent, { data: 
+      {
+        RefreshData : this.refreshData$
+      }});
+  }
+
   openEditDialog() {
-    this.matDialog.open(NoteDialogComponent, { data: this.selectedData });
+    const dialogRef = this.matDialog.open(NoteEditDialogComponent, { data: 
+      { 
+        SelectedData : this.selectedData, 
+        RefreshData : this.refreshData$
+      }});
   }
 
   columnDefs: ColDef[] = [
     {
       field: 'title',
-      editable: true,
+      editable: false,
       cellEditor: 'agLargeTextCellEditor',
       width: 30,
+      
     },
   ];
 
   onRowClick() {
-    let selectedNodes = this.gridApi.getSelectedNodes();
-    this.selectedData = selectedNodes.map((node: any) => node.data)[0];
+    this.selectedNodes = this.gridApi.getSelectedNodes();
+    this.selectedData = this.selectedNodes.map((node: any) => node.data)[0];
     this.rowIsSelected = true;
   }
 
   onDeleteNode() {
-    this.service.deleteNote(this.selectedData.id);
-  }
-
-  onCreateNode() {
-    this.service.createNote();
+    this.service.deleteNote(this.selectedData.id).subscribe(_ => this.refreshGridData());
+    this.rowIsSelected = false;
   }
 }

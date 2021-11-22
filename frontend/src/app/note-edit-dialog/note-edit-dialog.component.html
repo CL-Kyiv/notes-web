@@ -2,13 +2,13 @@
     Title:
 </div>
 <div>
-    <textarea rows="1" cols="100" #titleTextarea>{{data.title}}</textarea>
+    <textarea rows="3" cols="100" #titleTextarea>{{data.SelectedData.title}}</textarea>
 </div>
 <div class = "note-body">
     Body:
 </div>
 <div>
-    <textarea rows="10" cols="100" #bodyTextarea>{{data.body}}</textarea>
+    <textarea rows="10" cols="100" #bodyTextarea>{{data.SelectedData.body}}</textarea>
 </div>
 <div>
     <button class="button-save-change" (click)="onUpdateNode(titleTextarea.value, bodyTextarea.value)">Save</button>

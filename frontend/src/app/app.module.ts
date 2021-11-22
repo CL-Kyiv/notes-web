@@ -9,12 +9,14 @@ import { AgGridModule } from 'ag-grid-angular';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoteDialogComponent } from './note-dialog/note-dialog.component';
+import { NoteEditDialogComponent } from './note-edit-dialog/note-edit-dialog.component';
+import { NoteAddDialogComponent } from './note-add-dialog/note-add-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NoteDialogComponent
+    NoteEditDialogComponent,
+    NoteAddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,6 @@ import { NoteDialogComponent } from './note-dialog/note-dialog.component';
   ],
   providers: [NoteService],
   bootstrap: [AppComponent],
-  entryComponents: [NoteDialogComponent]
+  entryComponents: [NoteEditDialogComponent]
 })
 export class AppModule { }

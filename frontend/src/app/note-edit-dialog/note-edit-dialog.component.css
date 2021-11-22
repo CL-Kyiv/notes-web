@@ -1,0 +1,25 @@
+.note-title{
+    font-size: 25px !important;
+}
+textarea {
+    background: #fce9c0; /* Цвет фона */
+    border: 2px solid #a9c358; 
+    font-size: 20px;
+}
+.note-body{
+
+    font-size: 25px !important;
+
+}
+.button-save-change{
+    margin-left: 80%;
+    margin-top: 1%;
+    height: 45px; 
+    width:90px;
+}
+.button-close-editind{
+    margin-left: 1%;
+    margin-top: 1%;
+    height: 45px; 
+    width:90px;
+}

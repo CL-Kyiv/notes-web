@@ -2,16 +2,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import {MatDialogModule} from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { NoteService } from './note.service';
 import { AgGridModule } from 'ag-grid-angular';
-
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NoteEditDialogComponent } from './note-edit-dialog/note-edit-dialog.component';
+import { NoteAddDialogComponent } from './note-add-dialog/note-add-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NoteEditDialogComponent,
+    NoteAddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -19,9 +24,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [NoteService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NoteEditDialogComponent]
 })
 export class AppModule { }

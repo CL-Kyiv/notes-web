@@ -1,26 +1,37 @@
-<div class="row div-with-buttons">
-    <div class="col-4">
-        <span>
-            <button class="button-create-note" (click)="OnClickCallbackCreateNode()">Create note</button>
-        </span>
+<div class="row">
+    <div>
+        <button class="button-add-note" (click)="openAddDialog()">New note</button>
     </div>
-    <div class="col-4">
-        <span>
-            <button class="button-create-note" (click)="OnClickCallbackUpdateNode()">Update selected note</button>
-        </span>
+    <div class="col-3">
+        <ag-grid-angular
+            class="ag-theme-balham ag-grid"
+            [rowHeight]="rowHeight"
+            [rowData] = "notesData"
+            [columnDefs] = "columnDefs"
+            (gridReady)="onGridReady($event)"
+            rowSelection="multiple"
+            (rowClicked)="onRowClick()"
+        ></ag-grid-angular>
     </div>
-    <div class="col-4">
-        <span>
-            <button class="button-create-note" (click)="OnClickCallbackDeleteNode()">Delete selected note</button>
-        </span>
+    <div class="col-9">
+        <div *ngIf="rowIsSelected === true">
+                <div class = "note-title">
+                    Title:
+                </div>
+                <div>
+                    <textarea rows="3" cols="100" readonly>{{selectedData.title}}</textarea>
+                </div>
+                <div class = "note-body">
+                    Body:
+                </div>
+                <div>
+                    <textarea rows="10" cols="100" readonly>{{selectedData.body}}</textarea>
+                </div>
+                <div>
+                        <button class="button-edit-note" (click)="openEditDialog()">Edit note</button>
+                        <button class="button-delete-note" (click)="onDeleteNode()">Delete note</button>
+                </div>
+        </div>
     </div>
 </div>
-<ag-grid-angular
-class="ag-theme-balham ag-grid"
-[rowHeight]="rowHeight"
-[rowData] = "rowData$ | async"
-[columnDefs] = "columnDefs"
-(gridReady)="onGridReady($event)"
-rowSelection="multiple"
-></ag-grid-angular>
 

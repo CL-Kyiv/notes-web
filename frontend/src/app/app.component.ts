@@ -2,72 +2,80 @@ import { Component } from '@angular/core';
 import { NoteService } from './note.service';
 import { ColDef } from 'ag-grid-community';
 import { Note } from './note.type';
-import { Observable } from 'rxjs';
-import { NoteUpdateRequest } from './note.update.request';
+import { Subject } from 'rxjs';
+import { switchMap, tap} from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { NoteEditDialogComponent } from './note-edit-dialog/note-edit-dialog.component';
+import { NoteAddDialogComponent } from './note-add-dialog/note-add-dialog.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent {
-  private gridApi : any;
+  private gridApi: any;
   rowHeight = 50;
-  updateRequest : NoteUpdateRequest;
 
-  constructor(private service: NoteService) {}
+  constructor(private service: NoteService, private matDialog: MatDialog) {}
 
-  rowData$: Observable<Note[]> = this.service.getNotes();
-  
+  refreshData$: Subject<void> = new Subject<void>();
+  notesData: Note[] = [];
+
+  rowIsSelected: boolean = false;
+
+  selectedData: Note;
+  selectedNodes : any;
+
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
+    const api$ = this.refreshData$.pipe(
+      switchMap(() => this.service.getNotes()),
+      tap((notes) => (this.notesData = notes))
+    );
+    api$.subscribe(() => {});
+    this.refreshGridData();
+    this.refreshData$.subscribe(_ => this.rowIsSelected = false)
   }
- 
+
+  refreshGridData(){
+    this.refreshData$.next();
+  }
+
+  openAddDialog(){
+    const dialogRef = this.matDialog.open(NoteAddDialogComponent, { data: 
+      {
+        RefreshData : this.refreshData$
+      }});
+  }
+
+  openEditDialog() {
+    const dialogRef = this.matDialog.open(NoteEditDialogComponent, { data: 
+      { 
+        SelectedData : this.selectedData, 
+        RefreshData : this.refreshData$
+      }});
+  }
+
   columnDefs: ColDef[] = [
-    { 
+    {
       field: 'title',
-      editable: true,
+      editable: false,
       cellEditor: 'agLargeTextCellEditor',
-      width: 30
+      width: 30,
+      
     },
-    { 
-      field: 'body',
-      editable: true,
-      cellEditor: 'agLargeTextCellEditor',
-      width: 35
-    },
-    { 
-      field: 'createdDate',
-      width: 35
-    }
   ];
 
-  getSelectedRowData() {
-    let selectedNodes = this.gridApi.getSelectedNodes();
-    let selectedData = selectedNodes.map((node : any) => node.data);
-    return selectedData[0];
+  onRowClick() {
+    this.selectedNodes = this.gridApi.getSelectedNodes();
+    this.selectedData = this.selectedNodes.map((node: any) => node.data)[0];
+    this.rowIsSelected = true;
   }
 
-  OnClickCallbackUpdateNode(){
-    var selectedData = this.getSelectedRowData();
-    this.service.updateNote(selectedData.id, selectedData.title, selectedData.body);
+  onDeleteNode() {
+    this.service.deleteNote(this.selectedData.id).subscribe(_ => this.refreshGridData());
+    this.rowIsSelected = false;
   }
-
-  OnClickCallbackDeleteNode(){
-    var selectedData = this.getSelectedRowData();
-    this.service.deleteNote(selectedData.id);
-  }
-
-  OnClickCallbackCreateNode(){
-    this.service.createNote();
-  }
-
-  // onCellEditingStopped(params : any) {
-  //   var data = params.data;
-
-  //   this.service.updateNote(data.id, data.title, data.body);
-  // }
-  
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ using Notes.Repository.Abstractions.Repositories;
 using Notes.Repository.Base;
 using Notes.Repository.Repositories;
 using Notes.WebAPI.Profiles;
+using Notes.WebAPI.Middleware;
 
 namespace Notes.WebAPI
 {
@@ -61,6 +63,10 @@ namespace Notes.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCustomExceptionHandler();
+
+            app.UseStatusCodePages();
 
             app.UseHttpsRedirection();
 

@@ -26,7 +26,6 @@ namespace Notes.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNotes()
         {
-            throw new ArgumentOutOfRangeException();
                 return Ok(await _noteService.GetNotesAsync());
         }
 

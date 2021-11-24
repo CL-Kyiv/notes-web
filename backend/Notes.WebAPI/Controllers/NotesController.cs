@@ -4,6 +4,8 @@ using Notes.Domain.Services.Abstractions;
 using VM = Notes.WebAPI.Contracts;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
+using System;
 
 namespace Notes.WebAPI.Controllers
 {
@@ -24,7 +26,7 @@ namespace Notes.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNotes()
         {
-            return Ok(await _noteService.GetNotesAsync());
+                return Ok(await _noteService.GetNotesAsync());
         }
 
         [HttpPost]

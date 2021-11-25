@@ -35,3 +35,17 @@ Folder Name                                              Description
 ├──Notes.Repository.Abstractions            * repository abstractions
 ├──Notes.WebApi                             * app's startup project
 ```
+## Database settings
+
+You need to configure database`s settings for connection. You can tune it in appsettings.json or user secrets.json. 
+
+Settings should include server name, database name, username and password.
+
+```bash
+"DatabaseSettings": {
+    "Server": "server_name",
+    "Database": "db_name",
+    "User": "user",
+    "Pass": "password"
+  }
+```

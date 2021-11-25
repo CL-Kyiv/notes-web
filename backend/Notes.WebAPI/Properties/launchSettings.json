@@ -15,6 +15,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Notes.WebApi.Prod": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "prod"
+      },
+      "applicationUrl": "https://localhost:666"
     }
   }
 }

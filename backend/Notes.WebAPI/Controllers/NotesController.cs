@@ -26,7 +26,7 @@ namespace Notes.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNotes()
         {
-                return Ok(await _noteService.GetNotesAsync());
+            return Ok(await _noteService.GetNotesAsync());
         }
 
         [HttpPost]

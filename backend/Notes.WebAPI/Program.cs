@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Notes.WebAPI
@@ -14,7 +15,14 @@ namespace Notes.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                    .ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        if (!hostingContext.HostingEnvironment.IsProduction())
+                        {
+                            config.AddUserSecrets<Startup>(true);
+                        }
+                    });
                 });
     }
 }

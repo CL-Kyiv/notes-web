@@ -21,16 +21,11 @@ export class NoteEditDialogComponent {
     this.service.updateNote(this.data.SelectedData.id, title, body)
       .subscribe(_ => 
         {
-          this.refreshGridData();
-          this.dialogRef.close();
+          this.dialogRef.close({ isUpdated: true});
         });
   }
 
-  refreshGridData(): void {
-    this.data.RefreshData.next();
-  }
-
   onClose(){
-    this.dialogRef.close();
+    this.dialogRef.close({ isUpdate: false});
   }
 }

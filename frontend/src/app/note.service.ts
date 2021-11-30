@@ -19,7 +19,7 @@ export class NoteService {
   }
   
   updateNote(id: number, title: string, Body: string){
-    const body = { Title : title, 
+    const body = { Title : title,
       Body : Body };
                    
     return this.http.put(this.APIUrl + `notes?id=${id}`, body);

@@ -25,37 +25,53 @@ export class AppComponent {
   rowIsSelected: boolean = false;
 
   selectedData: Note;
-  selectedNodes : any;
 
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     const api$ = this.refreshData$.pipe(
-      switchMap(() => this.service.getNotes()),
-      tap((notes) => (this.notesData = notes))
+      switchMap(() => this.service.getNotes())
     );
-    api$.subscribe(() => {});
+    api$.subscribe(notes => this.notesData = notes);
     this.refreshGridData();
-    this.refreshData$.subscribe(_ => this.rowIsSelected = false)
   }
 
   refreshGridData(){
     this.refreshData$.next();
   }
 
+  // resetSelected() {
+  //   const selectedRows = JSON.parse(localStorage.getItem("selectedRows")!);
+
+  //   this.gridApi.forEachNode((node : any, index: number) => {
+      
+  //      // adapt with you own unique role-id rule
+  //      const selectNode = selectedRows.some((row : any) => {
+  //         return row.id === node.data.id;
+  //      });
+ 
+  //      if (selectNode) {
+  //       this.gridApi.getRowNode(node.data.id).selectThisNode(true);
+  //      }
+  //   });
+  // }
   openAddDialog(){
-    const dialogRef = this.matDialog.open(NoteAddDialogComponent, { data: 
-      {
-        RefreshData : this.refreshData$
-      }});
+    const dialogRef = this.matDialog.open(NoteAddDialogComponent);
+      dialogRef.afterClosed().subscribe((result : any) => {
+        if(result.isAdded)
+        this.refreshGridData();
+      });
   }
 
   openEditDialog() {
     const dialogRef = this.matDialog.open(NoteEditDialogComponent, { data: 
       { 
-        SelectedData : this.selectedData, 
-        RefreshData : this.refreshData$
+        SelectedData : this.selectedData
       }});
+    dialogRef.afterClosed().subscribe((result : any) => {
+      if(result.isUpdated)
+      this.refreshGridData();
+    });
   }
 
   columnDefs: ColDef[] = [
@@ -69,8 +85,9 @@ export class AppComponent {
   ];
 
   onRowClick() {
-    this.selectedNodes = this.gridApi.getSelectedNodes();
-    this.selectedData = this.selectedNodes.map((node: any) => node.data)[0];
+    let selectedNodes = this.gridApi.getSelectedNodes();
+    this.selectedData = selectedNodes.map((node: any) => node.data)[0];
+    // localStorage.setItem("selectedRows", JSON.stringify(this.gridApi.getSelectedRows()));
     this.rowIsSelected = true;
   }
 

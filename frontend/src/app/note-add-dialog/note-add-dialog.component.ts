@@ -13,24 +13,18 @@ import {
   styleUrls: ['./note-add-dialog.component.css']
 })
 export class NoteAddDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, 
-  private dialogRef: MatDialogRef<NoteAddDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<NoteAddDialogComponent>,
   private service: NoteService) {}
 
   onCreateNode(title : string, body : string){
     this.service.createNote(title, body)
       .subscribe(_ => 
         {
-          this.refreshGridData();
-          this.dialogRef.close();
+          this.dialogRef.close({ isAdded: true});
         });
   }
 
-  refreshGridData(): void {
-    this.data.RefreshData.next();
-  }
-
   onClose(){
-    this.dialogRef.close();
+    this.dialogRef.close({ isAdded: false});
   }
 }

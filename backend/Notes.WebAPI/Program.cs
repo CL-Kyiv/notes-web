@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Notes.WebAPI
 {
@@ -15,7 +16,8 @@ namespace Notes.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
+                    webBuilder.ConfigureLogging(bilder => bilder.AddConsole())
+                    .UseStartup<Startup>()
                     .ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         if (!hostingContext.HostingEnvironment.IsProduction())

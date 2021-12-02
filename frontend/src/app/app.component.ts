@@ -32,7 +32,7 @@ export class AppComponent {
     const api$ = this.refreshData$.pipe(
       switchMap(() => this.service.getNotes())
     );
-    api$.subscribe(notes => this.notesData = notes);
+    api$.subscribe(notes => {this.notesData = notes;});
     this.refreshGridData();
   }
 
@@ -40,26 +40,35 @@ export class AppComponent {
     this.refreshData$.next();
   }
 
-  // resetSelected() {
-  //   const selectedRows = JSON.parse(localStorage.getItem("selectedRows")!);
+  onRowDataChanged(){
+    if(this.rowIsSelected)
+      this.setSelected();
+  }
 
-  //   this.gridApi.forEachNode((node : any, index: number) => {
+  setSelected() {
+    const selectedRows = JSON.parse(localStorage.getItem("selectedRows")!);
+
+    this.gridApi.forEachNode((node : any, index: number) => {
       
-  //      // adapt with you own unique role-id rule
-  //      const selectNode = selectedRows.some((row : any) => {
-  //         return row.id === node.data.id;
-  //      });
+       // adapt with you own unique role-id rule
+       const selectNode = selectedRows.some((row : any) => {
+          return row.id === node.data.id;
+       });
  
-  //      if (selectNode) {
-  //       this.gridApi.getRowNode(node.data.id).selectThisNode(true);
-  //      }
-  //   });
-  // }
+       if (selectNode) {
+        this.gridApi.getRowNode(node.id).selectThisNode(true);
+        this.selectedData.title = node.data.title;
+        this.selectedData.body = node.data.body;
+       }
+    });
+  }
   openAddDialog(){
     const dialogRef = this.matDialog.open(NoteAddDialogComponent);
       dialogRef.afterClosed().subscribe((result : any) => {
-        if(result.isAdded)
-        this.refreshGridData();
+        if(result.isAdded){
+          this.refreshGridData();
+          this.rowIsSelected = false;
+        }
       });
   }
 
@@ -87,7 +96,7 @@ export class AppComponent {
   onRowClick() {
     let selectedNodes = this.gridApi.getSelectedNodes();
     this.selectedData = selectedNodes.map((node: any) => node.data)[0];
-    // localStorage.setItem("selectedRows", JSON.stringify(this.gridApi.getSelectedRows()));
+    localStorage.setItem("selectedRows", JSON.stringify(this.gridApi.getSelectedRows()));
     this.rowIsSelected = true;
   }
 

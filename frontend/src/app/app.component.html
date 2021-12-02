@@ -9,8 +9,9 @@
             [rowData] = "notesData"
             [columnDefs] = "columnDefs"
             (gridReady)="onGridReady($event)"
-            rowSelection="multiple"
+            rowSelection="single"
             (rowClicked)="onRowClick()"
+            (rowDataChanged)="onRowDataChanged()"
         ></ag-grid-angular>
     </div>
     <div class="col-9">

@@ -1,11 +1,11 @@
 ﻿namespace Notes.Domain.Models
 {
-    public class NoteCreateRequest
+    public class NoteCreateData
     {
         public string Title { get; }
         public string Body { get; }
 
-        public NoteCreateRequest(
+        public NoteCreateData(
             string title,
             string body)
         {

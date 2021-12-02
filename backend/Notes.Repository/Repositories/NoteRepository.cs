@@ -20,7 +20,7 @@ namespace Notes.Repository.Repositories
         {
         }
 
-        public async Task AddNoteAsync(NoteCreateRequest createRequest)
+        public async Task AddNoteAsync(NoteCreateData createRequest)
         {
             await ExecuteAsync(
                 NoteSqlCommands.AddNote,
@@ -48,7 +48,7 @@ namespace Notes.Repository.Repositories
                 .Select(noteEtity => noteEtity.ToDomainModel()).ToList();
         }
 
-        public async Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest)
+        public async Task UpdateNoteAsync(int id, NoteUpdateData updateRequest)
         {
             await ExecuteAsync(
                 NoteSqlCommands.UpdateNote,

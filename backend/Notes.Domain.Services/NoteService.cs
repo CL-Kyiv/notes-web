@@ -16,8 +16,8 @@ namespace Notes.Domain.Services
             _noteRepository = noteRepository;
         }
 
-        public async Task AddNoteAsync(NoteCreateRequest createRequest) =>
-            await _noteRepository.AddNoteAsync(createRequest);
+        public async Task AddNoteAsync(NoteCreateData createData) =>
+            await _noteRepository.AddNoteAsync(createData);
 
         public async Task DeleteNoteAsync(int id) =>
             await _noteRepository.DeleteNoteAsync(id);
@@ -25,7 +25,7 @@ namespace Notes.Domain.Services
         public async Task<List<Note>> GetNotesAsync() =>
             await _noteRepository.GetNotesAsync();
 
-        public async Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest) =>
-            await _noteRepository.UpdateNoteAsync(id, updateRequest);
+        public async Task UpdateNoteAsync(int id, NoteUpdateData updateData) =>
+            await _noteRepository.UpdateNoteAsync(id, updateData);
     }
 }

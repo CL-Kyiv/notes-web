@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Net;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace Notes.WepAPI.Tests
 {
@@ -18,6 +19,7 @@ namespace Notes.WepAPI.Tests
         private readonly NotesController _controller;
         private readonly Mock<INoteService> _noteServiceMock;
         private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<ILogger<NotesController>> _loggerMock;
 
         public NotesControllerTests()
         {
@@ -25,7 +27,9 @@ namespace Notes.WepAPI.Tests
 
             _mapperMock = new Mock<IMapper>();
 
-            _controller = new NotesController(_noteServiceMock.Object, _mapperMock.Object);
+            _loggerMock = new Mock<ILogger<NotesController>>();
+
+           _controller = new NotesController(_noteServiceMock.Object, _mapperMock.Object, _loggerMock.Object);
         }
 
         [Fact]

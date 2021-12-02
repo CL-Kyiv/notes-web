@@ -8,11 +8,11 @@ namespace Notes.WebAPI.Profiles
     {
         public NoteProfile()
         {
-            CreateMap<VM.Note, DM.Note>().ReverseMap();
+            CreateMap<VM.Note, DM.Note>();
 
-            CreateMap<VM.NoteUpdateRequest, DM.NoteUpdateRequest>().ReverseMap();
+            CreateMap<VM.NoteUpdateRequest, DM.NoteUpdateData>();
 
-            CreateMap<VM.NoteCreateRequest, DM.NoteCreateRequest>().ReverseMap();
+            CreateMap<VM.NoteCreateRequest, DM.NoteCreateData>();
         }
     }
 }

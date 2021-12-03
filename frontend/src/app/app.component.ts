@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NoteService } from './note.service';
+import { LogsService } from './logs.service';
 import { ColDef } from 'ag-grid-community';
 import { Note } from './note.type';
 import { Subject } from 'rxjs';
@@ -17,7 +18,9 @@ export class AppComponent {
   private gridApi: any;
   rowHeight = 50;
 
-  constructor(private service: NoteService, private matDialog: MatDialog) {}
+  constructor(private noteService: NoteService, 
+    private logsService: LogsService,
+    private matDialog: MatDialog) {}
 
   refreshData$: Subject<void> = new Subject<void>();
   notesData: Note[] = [];
@@ -30,7 +33,7 @@ export class AppComponent {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     const api$ = this.refreshData$.pipe(
-      switchMap(() => this.service.getNotes())
+      switchMap(() => this.noteService.getNotes())
     );
     api$.subscribe(notes => {this.notesData = notes;});
     this.refreshGridData();
@@ -101,7 +104,12 @@ export class AppComponent {
   }
 
   onDeleteNode() {
-    this.service.deleteNote(this.selectedData.id).subscribe(_ => this.refreshGridData());
+    this.noteService.deleteNote(this.selectedData.id).subscribe(_ => this.refreshGridData());
     this.rowIsSelected = false;
+  }
+
+  downloadFileWithLogs()
+  {
+    this.logsService.downloadFileWithLogs();
   }
 }

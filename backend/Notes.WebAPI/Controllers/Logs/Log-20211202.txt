@@ -1,0 +1,8 @@
+2021-12-02T19:58:02.8355492+01:00  [INF] Now listening on: "https://localhost:5001" (d826f4b8)
+2021-12-02T19:58:02.8397444+01:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2021-12-02T19:58:02.8412059+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-12-02T19:58:02.8425128+01:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-12-02T19:58:02.8437723+01:00  [INF] Content root path: "D:\Work\Project\notes\backend\Notes.WebAPI" (b5d60022)
+2021-12-02T19:58:33.0659751+01:00 0HMDLOMLH09HQ:00000005 [INF] Updating note id : 1 
+	 New title : sdfsdfsdTest app 
+	 New body : It's test app (063c7ac3)

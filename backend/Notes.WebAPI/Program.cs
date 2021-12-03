@@ -16,8 +16,7 @@ namespace Notes.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureLogging(bilder => bilder.AddConsole())
-                    .UseStartup<Startup>()
+                    webBuilder.UseStartup<Startup>()
                     .ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         if (!hostingContext.HostingEnvironment.IsProduction())

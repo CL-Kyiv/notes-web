@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -62,7 +61,7 @@ namespace Notes.WebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var path = Directory.GetCurrentDirectory();
-            loggerFactory.AddFile($"{path}\\Controllers\\Logs\\Log.txt");
+            loggerFactory.AddFile($"{path}\\Logs\\Log.txt");
 
             if (env.IsDevelopment())
             {

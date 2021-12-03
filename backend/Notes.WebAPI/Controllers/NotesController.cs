@@ -4,8 +4,6 @@ using Notes.Domain.Services.Abstractions;
 using VM = Notes.WebAPI.Contracts;
 using System.Threading.Tasks;
 using AutoMapper;
-using FluentValidation;
-using System;
 using Microsoft.Extensions.Logging;
 
 namespace Notes.WebAPI.Controllers

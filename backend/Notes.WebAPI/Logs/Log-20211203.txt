@@ -34,3 +34,8 @@
 2021-12-03T01:33:56.8002820+01:00 0HMDLUHS40FP8:00000005 [INF] Updating note id : 46 
 	 New title : sdsdfsdfsdfdsfsddsfsdfsd 
 	 New body :  (9f74c954)
+2021-12-03T11:14:27.6945216+01:00  [INF] Now listening on: "https://localhost:5001" (d826f4b8)
+2021-12-03T11:14:27.6990416+01:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2021-12-03T11:14:27.7004709+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-12-03T11:14:27.7022382+01:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-12-03T11:14:27.7036813+01:00  [INF] Content root path: "D:\Work\Project\notes\backend\Notes.WebAPI" (b5d60022)

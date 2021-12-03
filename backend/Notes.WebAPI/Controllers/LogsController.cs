@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Notes.WebAPI.Controllers
@@ -15,7 +12,7 @@ namespace Notes.WebAPI.Controllers
         public async Task<IActionResult> DownloadFile()
         {
 
-            var path = $"{Directory.GetCurrentDirectory()}\\Controllers\\Logs\\Log-20211203.txt";
+            var path = $"{Directory.GetCurrentDirectory()}\\Logs\\Log-20211203.txt";
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Write))

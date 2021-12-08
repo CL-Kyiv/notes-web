@@ -4,6 +4,7 @@ using Notes.Domain.Services.Abstractions;
 using VM = Notes.WebAPI.Contracts;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace Notes.WebAPI.Controllers
 {
@@ -13,12 +14,15 @@ namespace Notes.WebAPI.Controllers
     {
         private readonly INoteService _noteService;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public NotesController(INoteService noteService,
-                               IMapper mapper)
+                               IMapper mapper,
+                               ILogger<NotesController> logger)
         {
             _noteService = noteService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -28,9 +32,10 @@ namespace Notes.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNoteAsync()
+        public async Task<IActionResult> CreateNoteAsync(VM.NoteCreateRequest createRequest)
         {
-            await _noteService.AddNoteAsync();
+            _logger.LogInformation($"Adding note with \n\t Title : {createRequest.Title} \n\t Body : {createRequest.Body}");
+            await _noteService.AddNoteAsync(_mapper.Map<DM.NoteCreateData>(createRequest));
             return Ok();
         }
 
@@ -42,9 +47,10 @@ namespace Notes.WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateNoteAsync([FromQuery] int id, [FromBody] VM.NoteUpdateRequest updateRequest)
+        public async Task<IActionResult> UpdateNoteAsync(int id, VM.NoteUpdateRequest updateRequest)
         {
-            await _noteService.UpdateNoteAsync(id, _mapper.Map<DM.NoteUpdateRequest>(updateRequest));
+            _logger.LogInformation($"Updating note id : {id} \n\t New title : {updateRequest.Title} \n\t New body : {updateRequest.Body}");
+            await _noteService.UpdateNoteAsync(id, _mapper.Map<DM.NoteUpdateData>(updateRequest));
             return Ok();
         }
     }

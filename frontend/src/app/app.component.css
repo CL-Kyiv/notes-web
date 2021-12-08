@@ -1,12 +1,49 @@
 .ag-grid{
     width: 100%; 
-    height: 700px; 
+    height: 900px; 
     font-size: 20px;
+    margin-top: 5%;
 }
-.button-create-note{
+.button-add-note{
+    margin-left: 1%;
+    margin-top: 1%;
     height:50px; 
-    width:200px
+    width:100px;
 }
-.div-with-buttons{
-    width:25%
+.button-download-logs{
+    margin-left: 1%;
+    margin-top: 1%;
+    height:50px; 
+    width:150px;
 }
+.button-delete-note{
+    margin-left: 2%;
+    margin-top: 1%;
+    height:50px; 
+    width:100px;
+}
+.note-title{
+    margin-left: 10%;
+    font-size: 30px !important;
+    margin-top: 10%;
+}
+textarea {
+    background: #f5f5f4; /* Цвет фона */
+    font-size: 25px;
+    margin-left: 10%;
+    outline: none;
+    border: none;
+    overflow:auto
+}
+.note-body{
+    margin-left: 10%;
+    font-size: 30px !important;
+    margin-top: 3%;
+}
+.button-edit-note{
+    margin-left: 67%;
+    margin-top: 1%;
+    height:50px; 
+    width:100px;
+}
+

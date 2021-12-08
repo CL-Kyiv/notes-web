@@ -4,30 +4,34 @@ using Notes.Repository.Abstractions.Repositories;
 using Notes.Repository.Base;
 using Notes.Repository.Constants;
 using Notes.Repository.Entities;
-using Notes.Repository.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Notes.Repository.Repositories
 {
     public class NoteRepository : DbObjectRepository, INoteRepository
     {
-        public NoteRepository(ISqlConnectionObjectFactory connectionFactory)
+        private readonly IMapper _mapper;
+
+        public NoteRepository(ISqlConnectionObjectFactory connectionFactory,
+            IMapper mapper)
             : base(connectionFactory)
         {
+            _mapper = mapper;
         }
 
-        public async Task AddNoteAsync()
+        public async Task AddNoteAsync(NoteCreateData createRequest)
         {
             await ExecuteAsync(
                 NoteSqlCommands.AddNote,
                 new
                 {
-                     Title = "Title",
-                     Body = "Body",
+                     Title = createRequest.Title,
+                     Body = createRequest.Body,
                      CreatedDate = DateTime.Now,
                      IsActive = true
                 });
@@ -45,10 +49,10 @@ namespace Notes.Repository.Repositories
         public async Task<List<Note>> GetNotesAsync()
         {
             return (await QueryAsync<NoteEntity>(NoteSqlCommands.GetNotes))
-                .Select(noteEtity => noteEtity.ToDomainModel()).ToList();
+                .Select(noteEtity => _mapper.Map<Note>(noteEtity)).ToList();
         }
 
-        public async Task UpdateNoteAsync(int id, NoteUpdateRequest updateRequest)
+        public async Task UpdateNoteAsync(int id, NoteUpdateData updateRequest)
         {
             await ExecuteAsync(
                 NoteSqlCommands.UpdateNote,

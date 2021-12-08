@@ -1,73 +1,98 @@
 import { Component } from '@angular/core';
 import { NoteService } from './note.service';
+import { LogsService } from './logs.service';
 import { ColDef } from 'ag-grid-community';
 import { Note } from './note.type';
-import { Observable } from 'rxjs';
-import { NoteUpdateRequest } from './note.update.request';
+import { Subject } from 'rxjs';
+import { switchMap, filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { GridApi } from 'ag-grid-community';
+import { NoteEditDialogComponent } from './note-edit-dialog/note-edit-dialog.component';
+import { NoteAddDialogComponent } from './note-add-dialog/note-add-dialog.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent {
-  private gridApi : any;
-  rowHeight = 50;
-  updateRequest : NoteUpdateRequest;
+  private gridApi: GridApi;
+  refreshData$: Subject<void> = new Subject<void>();
+  selectedData: Note | undefined;
 
-  constructor(private service: NoteService) {}
+  constructor(
+    private noteService: NoteService, 
+    private logsService: LogsService,
+    private matDialog: MatDialog
+  ) {}
 
-  rowData$: Observable<Note[]> = this.service.getNotes();
-  
+  get rowIsSelected(): boolean {
+    return this.gridApi && this.gridApi?.getSelectedNodes().length > 0;
+  }
+
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
+    const api$ = this.refreshData$.pipe(
+      switchMap(() => this.noteService.getNotes())
+    );
+    api$.subscribe((notes) => {
+      this.gridApi.setRowData(notes);
+    });
+    this.refreshGridData();
   }
- 
-  columnDefs: ColDef[] = [
-    { 
-      field: 'title',
-      editable: true,
-      cellEditor: 'agLargeTextCellEditor',
-      width: 30
-    },
-    { 
-      field: 'body',
-      editable: true,
-      cellEditor: 'agLargeTextCellEditor',
-      width: 35
-    },
-    { 
-      field: 'createdDate',
-      width: 35
+
+  refreshGridData() {
+    this.refreshData$.next();
+  }
+
+  onRowDataChanged() {
+    if (this.selectedData) {
+      let selectedNode = this.gridApi
+        .getRenderedNodes()
+        .filter((n) => n.data.id === this.selectedData!.id)[0];
+      this.selectedData = selectedNode.data;
+      selectedNode.selectThisNode(true);
     }
+  }
+
+  openAddDialog() {
+    const dialogRef = this.matDialog.open(NoteAddDialogComponent);
+    dialogRef.afterClosed().pipe(filter(r => r.isAdded)).subscribe(() => {
+      this.refreshGridData();
+    });
+  }
+
+  openEditDialog() {
+    const dialogRef = this.matDialog.open(NoteEditDialogComponent, {
+      data: {
+        SelectedData: this.selectedData,
+      },
+    });
+    dialogRef.afterClosed().pipe(filter(r => r.isUpdated)).subscribe(() => {
+      this.refreshGridData();
+    });
+  }
+
+  columnDefs: ColDef[] = [
+    {
+      field: 'title',
+      editable: false,
+      cellEditor: 'agLargeTextCellEditor',
+      width: 30,
+    },
   ];
 
-  getSelectedRowData() {
+  onRowClick() {
     let selectedNodes = this.gridApi.getSelectedNodes();
-    let selectedData = selectedNodes.map((node : any) => node.data);
-    return selectedData[0];
+    this.selectedData = selectedNodes.map((node: any) => node.data)[0];
   }
 
-  OnClickCallbackUpdateNode(){
-    var selectedData = this.getSelectedRowData();
-    this.service.updateNote(selectedData.id, selectedData.title, selectedData.body);
-  }
+  onDeleteNode = () =>
+    this.noteService.deleteNote(this.selectedData!.id).subscribe((_) => {
+      this.selectedData = undefined;
+      this.refreshGridData();
+    });
 
-  OnClickCallbackDeleteNode(){
-    var selectedData = this.getSelectedRowData();
-    this.service.deleteNote(selectedData.id);
-  }
-
-  OnClickCallbackCreateNode(){
-    this.service.createNote();
-  }
-
-  // onCellEditingStopped(params : any) {
-  //   var data = params.data;
-
-  //   this.service.updateNote(data.id, data.title, data.body);
-  // }
-  
+  downloadFileWithLogs = () => this.logsService.downloadFileWithLogs();
 }

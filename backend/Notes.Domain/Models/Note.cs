@@ -4,21 +4,9 @@ namespace Notes.Domain.Models
 {
     public class Note
     {
-        public int Id { get;}
-        public string Title { get;}
-        public string Body { get;}
-        public DateTime CreatedDate { get;}
-
-        public Note(
-            int id,
-            string title,
-            string body,
-            DateTime createdDate)
-        {
-            Id = id;
-            Title = title;
-            Body = body;
-            CreatedDate = createdDate;
-        }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

@@ -6,8 +6,7 @@
     <div class="col-3">
         <ag-grid-angular
             class="ag-theme-balham ag-grid"
-            [rowHeight]="rowHeight"
-            [rowData] = "notesData"
+            [rowHeight]="50"
             [columnDefs] = "columnDefs"
             (gridReady)="onGridReady($event)"
             rowSelection="single"
@@ -21,13 +20,13 @@
                     Title:
                 </div>
                 <div>
-                    <textarea rows="3" cols="100" readonly>{{selectedData.title}}</textarea>
+                    <textarea rows="3" cols="100" readonly>{{selectedData?.title}}</textarea>
                 </div>
                 <div class = "note-body">
                     Body:
                 </div>
                 <div>
-                    <textarea rows="10" cols="100" readonly>{{selectedData.body}}</textarea>
+                    <textarea rows="10" cols="100" readonly>{{selectedData?.body}}</textarea>
                 </div>
                 <div>
                         <button class="button-edit-note" (click)="openEditDialog()">Edit note</button>
